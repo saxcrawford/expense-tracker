@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="height: 90vh;">
+    <div style="width: 75%;">
+        <h1>Add Transaction</h1>
+        <form action="/add_transaction" method="post">
+            <label for="amount">Amount</label>
+            <div class="input-group mb-2">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" step="0.01" placeholder="0.00" aria-label="Amount" id="amount" name="transaction_amount" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" name="transaction_desc" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="transaction_date" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="type">Type</label>
+                <select class="form-control" id="type" name="transaction_type" required>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="category_name" required>
+                    <!-- Categories options here -->
+                    <option>Grocery</option>
+                    <option>Insurance</option>
+                    <option>Other</option>
+                    <option>Personal</option>
+                    <option>Pet</option>
+                </select>
+            </div>
+            <!-- Additional fields for category and date -->
+            <button type="submit" class="btn btn-primary" style="width: 10rem;">Add Transaction</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
