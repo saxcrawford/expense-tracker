@@ -72,6 +72,12 @@ This Expense Tracker is a web-based application built with Flask that helps user
    ```
 
 8. Open a web browser and navigate to `http://localhost:5000`.
+   
+## Demo Video
+
+Check out this short demo video to see the Expense Tracker in action:
+
+[![Expense Tracker Demo](https://img.youtube.com/vi/v6PhXyHALOQ/0.jpg)](https://youtu.be/v6PhXyHALOQ)
 
 ## Contact
 Saxon Crawford - saxon.crawford@icloud.com
