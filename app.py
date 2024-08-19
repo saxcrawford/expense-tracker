@@ -128,6 +128,7 @@ def login():
             session['user_id'] = user[0]
             session['username'] = user[1]
             return render_template('dashboard.html')
+    return render_template('login.html')
 
 @app.route('/logout')
 @login_required
