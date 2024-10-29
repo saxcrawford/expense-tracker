@@ -1,12 +1,56 @@
 {% extends "layout.html" %}
+{% block body_class %}form-page{% endblock %}
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center" style="height:90vh;">
-    <div>
-        <h1 class="pt-3">Let's get started!</h1>
-        <p>To add a transaction press the <span style="color: #007FFF;">Add Transaction</span> button below.</p>
-        <a href="/add_transaction">
-            <button type="submit" class="btn btn-primary" style="width: 10rem;">Add Transaction</button>
-        </a>
+<div class="container d-flex flex-column align-items-center justify-content-center" style="height: 90vh">
+    <div class="dashboard-page">
+        <h1 class="pt-3">You can find your transactions graphed here!</h1>
+        <p>To add a transaction press the <span style="color: #004085;">Add Transaction</span> button below.</p>
     </div>
+
+    <div class="card d-flex align-items-center justify-content-center p-3" style="width: 800px; height: auto;">
+        <div class="chartBox" style="width: 700px;">
+            <canvas id="myChart"></canvas>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var transactions = JSON.parse('{{ transactions | tojson | safe }}');
+    
+            var monthlyTotals = Array(12).fill(0);
+    
+            transactions.forEach(function(transaction) {
+                var date = new Date(transaction[3]);
+                var month = date.getMonth(); 
+                var amount = parseFloat(transaction[1]); 
+                monthlyTotals[month] += amount;
+            });
+    
+            var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const expenseChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Expenses',
+                        data: monthlyTotals,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </div>
+    <a href="/add_transaction">
+        <button type="submit" class="btn form-btn btn-primary my-2 fs-5" style="width: 15em;">Add Transaction</button>
+    </a>
 </div>
 {% endblock %}

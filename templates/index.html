@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center" style="height:90vh;">
-    <div>
-        <h1>Welcome to ExpenseTracker</h1>
-        <h5 class="pb-2">To get started, you must register or login.</h5>
+<div class="container d-flex flex-column align-items-center justify-content-center" style="height:90vh;">
+    <h1 class="home-h1">Welcome to ExpenseTracker</h1>
+    <h5 class="home-h5 pb-2">To get started, you must <span class="blue-text">register</span> or <span class="blue-text">login</span>.</h5>
+    <div class="container d-flex align-items-center justify-content-center">
         <a href="/register">
-            <button type="submit" class="btn btn-primary me-2" style="width: 6rem;">Register</button>
+            <button type="submit" class="home-btn btn btn-primary me-2 fs-5">Register</button>
         </a>
         <a href="/login">
-            <button type="submit" class="btn btn-primary" style="width: 6rem;">Login</button>
+            <button type="submit" class="home-btn btn btn-primary fs-5">Login</button>
         </a>
     </div>
 </div>

@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
+{% block body_class %}form-page{% endblock %}
 {% block content %}
-<div class="container mt-4 d-flex justify-content-center" style="height: 90vh;">
-    <div style="width: 100%;">
-        <h1 class="mb-4">Transaction History</h1>
-        <table class="table">
+<div class="container mt-4 d-flex justify-content-center align-items-center" style="height: 90vh;">
+    <div class="card p-4" style="width: 90%; height: auto;">
+        <h1 class="text-center" style="color: black;">Transaction History</h1>
+        <table class="table text-center">
             <thead>
                 <tr>
                     <th>Amount</th>
@@ -17,7 +18,7 @@
             <tbody>
                 {% for transaction in transactions %}
                 <tr>
-                    <td>{{ transaction[1] }}</td>
+                    <td>${{ transaction[1] }}</td>
                     <td>{{ transaction[2] }}</td>
                     <td>{{ transaction[3] }}</td>
                     <td>{{ transaction[4] }}</td>

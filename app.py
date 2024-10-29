@@ -12,8 +12,8 @@ def create_connection():
         conn = mysql.connector.connect(
             host='localhost',
             user='root',
-            password='Ir0n.mAn2024',
-            database='budget_tracker'
+            password='Ir0nmAn2024',
+            database='expense_tracker'
         )
         return conn
     except Error as e:
@@ -28,11 +28,13 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
-    if 'user_id' in session:
-        return render_template('dashboard.html')
-    return render_template('index.html')
+    transactions = []
+    if ('user_id' in session):
+        return render_template('welcome.html', transactions=transactions)
+    else:
+        return render_template('index.html')
 
 @app.route('/add_transaction', methods=['GET', 'POST'])
 @login_required
@@ -77,13 +79,21 @@ def view_transactions():
 
 @app.route('/delete_transaction/<int:transaction_id>', methods=['POST'])
 def delete_transaction(transaction_id):
+    user_id = session['user_id']
     conn = create_connection()
     cursor = conn.cursor()
     cursor.execute('DELETE FROM Transactions WHERE transaction_id = %s', (transaction_id,))
+    cursor.execute('''
+            SELECT t.transaction_id, t.transaction_amount, t.transaction_desc, t.transaction_date, c.category_name, t.transaction_type
+            FROM Transactions t
+            JOIN Categories c ON t.category_id = c.category_id
+            WHERE t.user_id = %s
+        ''', (user_id,))
+    transactions = cursor.fetchall()
     conn.commit()
     cursor.close()
     conn.close()
-    return render_template('view_transactions.html')
+    return render_template('view_transactions.html', transactions=transactions)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -108,7 +118,7 @@ def register():
                 return render_template('view_transactions.html')
     except Error as e:
         flash('Username already taken')
-        return render_template('register.html')
+        return render_template('welcome.html')
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -127,7 +137,7 @@ def login():
         if user and check_password_hash(user[2], password):
             session['user_id'] = user[0]
             session['username'] = user[1]
-            return render_template('dashboard.html')
+            return render_template('welcome.html')
     return render_template('login.html')
 
 @app.route('/logout')
@@ -136,10 +146,22 @@ def logout():
     session.clear()
     return render_template('login.html')
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    user_id = session['user_id']
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+            SELECT t.transaction_id, t.transaction_amount, t.transaction_desc, t.transaction_date, c.category_name, t.transaction_type
+            FROM Transactions t
+            JOIN Categories c ON t.category_id = c.category_id
+            WHERE t.user_id = %s
+        ''', (user_id,))
+    transactions = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('dashboard.html', transactions=transactions)
 
 if __name__ == "__main__":
     app.run(debug=True)
