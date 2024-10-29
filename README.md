@@ -62,7 +62,7 @@ This Expense Tracker is a web-based application built with Flask that helps user
     CREATE TABLE Users (
       user_id INT AUTO_INCREMENT PRIMARY KEY,
       user_username VARCHAR(50) UNIQUE NOT NULL,
-      user_password VARCHAR(255) NOT NULL,
+      user_password VARCHAR(255) NOT NULL
     );
    ```
 
@@ -77,7 +77,7 @@ This Expense Tracker is a web-based application built with Flask that helps user
 
 Check out this short demo video to see the Expense Tracker in action:
 
-[![Expense Tracker Demo](https://img.youtube.com/vi/v6PhXyHALOQ/0.jpg)](https://youtu.be/v6PhXyHALOQ)
+[![Expense Tracker Demo](https://img.youtube.com/vi/Gx6HWBikcJI/0.jpg)](https://youtu.be/Gx6HWBikcJI)
 
 ## Contact
 Saxon Crawford - saxon.crawford@icloud.com
